@@ -85,6 +85,8 @@ function log_event(array $cfg, string $level, string $message, array $context = 
     $min = $levels[$cfg['log_level']] ?? 20;
     $cur = $levels[$level] ?? 20;
 
+   
+
     // Se il livello corrente è sotto la soglia minima, non logghiamo
     if ($cur < $min) return;
 
@@ -92,7 +94,8 @@ function log_event(array $cfg, string $level, string $message, array $context = 
     $ts = date('c');
     // Serializziamo il contesto in JSON (stringa) per stamparlo a fine riga
     $ctx = $context ? json_encode($context, JSON_UNESCAPED_SLASHES) : '';
-    $line = "[{$ts}] {$level} {$message} {$ctx}\n";
+
+    $line = "[{$ts}] {$level} {$message} {$ctx} {$cfg["log-format"]}\n" ;
 
     // Scegliamo dove scrivere il log: file oppure STDERR
     if (($cfg['log_channel'] ?? 'stderr') === 'file') {
