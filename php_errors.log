@@ -124,3 +124,13 @@ Stack trace:
 Stack trace:
 #0 {main}
   thrown in C:\Program Files\Ampps\www\GitHub\esercizio2\app.php on line 68
+[14-Jan-2026 09:33:26 UTC] PHP Warning:  Undefined variable $argv in C:\Program Files\Ampps\www\GitHub\esercizio2\app.php on line 19
+[14-Jan-2026 09:33:26 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "STDERR" in C:\Program Files\Ampps\www\GitHub\esercizio2\app.php:68
+Stack trace:
+#0 {main}
+  thrown in C:\Program Files\Ampps\www\GitHub\esercizio2\app.php on line 68
+[14-Jan-2026 09:33:27 UTC] PHP Warning:  Undefined variable $argv in C:\Program Files\Ampps\www\GitHub\esercizio2\app.php on line 19
+[14-Jan-2026 09:33:27 UTC] PHP Fatal error:  Uncaught Error: Undefined constant "STDERR" in C:\Program Files\Ampps\www\GitHub\esercizio2\app.php:68
+Stack trace:
+#0 {main}
+  thrown in C:\Program Files\Ampps\www\GitHub\esercizio2\app.php on line 68
