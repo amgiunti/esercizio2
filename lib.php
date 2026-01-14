@@ -41,12 +41,13 @@ function load_config(string $path): array {
  */
 function parse_args(array $argv, bool $strict): array {
     // Sintassi:
-    // php app.php audit:ping --user=alice --action=login
+    // php app.php audit:ping --user=alice --action=login --level=debug
     // Se non viene passato alcun comando, mostriamo l'help
     $cmd = $argv[1] ?? 'help';
     $opts = [
         'user'   => null,
         'action' => null,
+        'level'  => 'info',
     ];
 
     // Scorriamo tutti gli argomenti a partire da indice 2 (dopo script e comando)
@@ -57,6 +58,8 @@ function parse_args(array $argv, bool $strict): array {
             $opts['user'] = substr($a, 7);
         } elseif (str_starts_with($a, '--action=')) {
             $opts['action'] = substr($a, 9);
+        } elseif (str_starts_with($a, '--level=')) {
+            $opts['level'] = substr($a, 8);
         } else {
             // Argomento non riconosciuto: in modalità strict blocchiamo l'esecuzione
             if ($strict) {
@@ -85,8 +88,6 @@ function log_event(array $cfg, string $level, string $message, array $context = 
     $min = $levels[$cfg['log_level']] ?? 20;
     $cur = $levels[$level] ?? 20;
 
-   
-
     // Se il livello corrente è sotto la soglia minima, non logghiamo
     if ($cur < $min) return;
 
@@ -95,13 +96,14 @@ function log_event(array $cfg, string $level, string $message, array $context = 
     // Serializziamo il contesto in JSON (stringa) per stamparlo a fine riga
     $ctx = $context ? json_encode($context, JSON_UNESCAPED_SLASHES) : '';
 
-    $line = "[{$ts}] {$level} {$message} {$ctx} {$cfg["log-format"]}\n" ;
+    // Formato del log: include eventuali informazioni aggiuntive da configurazione
+    $format = $cfg['log_format'] ?? '';
+    $line = "[{$ts}] {$level} {$message} {$ctx} {$format}\n";
 
     // Scegliamo dove scrivere il log: file oppure STDERR
     if (($cfg['log_channel'] ?? 'stderr') === 'file') {
         file_put_contents($cfg['log_file'], $line, FILE_APPEND);
     } else {
-            // Argomento non riconosciuto: in modalità strict blocchiamo l'esecuzione
         fwrite(STDERR, $line);
     }
 }

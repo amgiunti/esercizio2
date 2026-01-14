@@ -24,7 +24,7 @@ try {
         echo $cfg['app_name'] . " v" . $cfg['version'] . "\n";
         echo "Commands:\n";
         echo "  audit:ping                 healthcheck\n";
-        echo "  audit:log --user=U --action=A   write an audit log event\n";
+        echo "  audit:log --user=U --action=A --level=L   write an audit log event\n";
         exit(0);
     }
 
@@ -40,16 +40,16 @@ try {
     if ($cmd === 'audit:log') {
         $user = $opts['user'] ?? null;
         $action = $opts['action'] ?? null;
+        $level = $opts['level'] ?? 'info';
 
         if (!$user || !$action) {
             throw new InvalidArgumentException("Missing --user or --action");
         }
 
-        log_event($cfg, 'info', 'audit.event', ['user' => $user, 'action' => $action]);
+        log_event($cfg, $level, 'audit.event', ['user' => $user, 'action' => $action]);
         echo "ok\n";
         exit(0);
     }
-
 
     // Se arriviamo qui, il comando non è supportato: generiamo un'eccezione.
     throw new InvalidArgumentException("Unknown command: {$cmd}");
