@@ -17,5 +17,5 @@ return [
     'log_file'    => __DIR__ . '/audit.log',
 
     // parsing CLI
-    'strict' => true,
+    'strict' => false,
 ];
